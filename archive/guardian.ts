@@ -1,0 +1,49 @@
+import { Client as PostgresClient } from 'pg';
+import { createClient as createRedis } from 'redis';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const redis = createRedis({ 
+    url: process.env.REDIS_URL || 'redis://localhost:6379' 
+});
+
+export const checkIntegrity = async (agentIntent: string) => {
+    console.log('\n--- [GAB INTERCEPTION EVENT] ---');
+    
+    const pgClient = new PostgresClient({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+    });
+
+    try {
+        if (!redis.isOpen) await redis.connect();
+        
+        const intentHash = Buffer.from(agentIntent).toString('base64').substring(0, 12);
+        const attemptCount = await redis.incr(`attempts:${intentHash}`);
+        await redis.expire(`attempts:${intentHash}`, 60);
+
+        if (attemptCount > 3) {
+            return { status: 'LOCKED', message: 'GAB: Loop Protection Active.' };
+        }
+
+        await pgClient.connect();
+        const { rows: rules } = await pgClient.query('SELECT * FROM safety_parameters');
+        
+        const violation = rules?.find(rule => 
+            agentIntent.toLowerCase().includes(rule.keyword.toLowerCase())
+        );
+
+        if (violation) {
+            console.warn(`[GAB ALERT] Blocked: ${violation.keyword}`);
+            return { status: 'BLOCKED', risk: violation.risk_level };
+        }
+
+        return { status: 'APPROVED' };
+    } catch (err) {
+        console.error('[GAB ERROR] System failure:', err);
+        return { status: 'FAIL_SAFE_BLOCK' };
+    } finally {
+        await pgClient.end();
+    }
+};

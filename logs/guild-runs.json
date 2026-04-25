@@ -1,0 +1,6 @@
+{"intent":"Telemetry Check: Rail voltage is 3.3V, Battery 95%","status":"APPROVED","timestamp":"2026-04-24T23:06:28.239Z"}
+{"intent":"Requesting temporary admin_access for maintenance","status":"APPROVED_WITH_WARNING","timestamp":"2026-04-24T23:06:29.303Z","risk_level":"HIGH"}
+{"intent":"CRITICAL: force_voltage to 12.0V for stress test","status":"DENIED","timestamp":"2026-04-24T23:06:30.221Z","risk_level":"CRITICAL"}
+{"intent":"Telemetry Check: Rail voltage is 3.3V, Battery 95%","status":"APPROVED","timestamp":"2026-04-24T23:25:55.414Z"}
+{"intent":"Requesting temporary admin_access for maintenance","status":"APPROVED_WITH_WARNING","timestamp":"2026-04-24T23:25:56.473Z","risk_level":"HIGH"}
+{"intent":"CRITICAL: force_voltage to 12.0V for stress test","status":"DENIED","timestamp":"2026-04-24T23:25:57.484Z","risk_level":"CRITICAL"}
