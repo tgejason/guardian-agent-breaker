@@ -12,13 +12,15 @@ Guardian Agent Breaker is a runtime safety framework that intercepts AI agent ac
 
 By separating **intent evaluation** from **action execution**, GAB allows you to deploy AI agents to production with confidence—turning fragile demos into enterprise-grade infrastructure.
 
-**## 🛠️ Powered By (Hackathon Sponsors)** 
+## 🛠️ Powered By (Hackathon Sponsors)
+
 | Sponsor | Integration Role | Purpose |
 | :--- | :--- | :--- |
-| **[Insforge](https://insforge.com/)** | Policy Engine Backend | Stores and manages the `safety_parameters` PostgreSQL table, enabling real-time policy updates. |
-| **[Shipables](https://shipables.dev/)** | Deployment & Orchestration | Provides the production environment and API portal for triggering agent supervision. |
-| **[Chainguard](https://www.chainguard.dev/)** | Hardened Security | Utilizes [Chainguard Node.js images](https://github.com/tgejason/guardian-agent-breaker/blob/main/infra/Dockerfile) to ensure a minimal attack surface. |
-| **[Supabase](https://supabase.com/)** | Data Persistence | Managed PostgreSQL backbone for high-availability policy storage. |
+| **[Insforge](https://insforge.com/)** | **Policy Engine Backend** | Stores and manages the `safety_parameters` PostgreSQL table, enabling real-time policy updates. |
+| **[Redis](https://redis.io/)** | **High-Speed Caching** | Used for sub-10ms policy lookups and session state management, ensuring the circuit breaker adds zero perceived latency. |
+| **[Shipables](https://shipables.dev/)** | **Deployment & Orchestration** | Provides the production environment and API portal for triggering agent supervision and managing secrets. |
+| **[Chainguard](https://www.chainguard.dev/)** | **Hardened Security** | Utilizes **[Chainguard Node.js images](https://github.com/tgejason/guardian-agent-breaker/blob/main/infra/Dockerfile)** to ensure a minimal attack surface. |
+| **[Supabase](https://supabase.com/)** | **Data Persistence** | Managed PostgreSQL backbone for high-availability policy storage and audit logging. |
 
 ## Core Features
 
